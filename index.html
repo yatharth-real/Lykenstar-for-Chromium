@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lykenstar - WebNotch Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="Lykenstar: A standalone, dynamic-island-inspired web UI component for modern websites.">
+</head>
+<body>
+    <!-- WebNotch Container -->
+    <div id="web-notch" class="web-notch" aria-live="polite" role="status" tabindex="0">
+        <div class="web-notch-content" id="web-notch-content">
+            <span class="web-notch-title" id="web-notch-title">Lykenstar</span>
+            <!-- Dynamic elements will be injected here or toggled via CSS/JS -->
+            <div class="web-notch-dynamic-area" id="web-notch-dynamic-area"></div>
+        </div>
+    </div>
+
+    <!-- Demo Page Content -->
+    <main class="demo-container">
+        <header class="demo-header">
+            <h1>Lykenstar</h1>
+            <p>A polished, dynamic-island-inspired web component for your websites.</p>
+            <div class="demo-badges">
+                <span class="badge">Vanilla JS</span>
+                <span class="badge">No Dependencies</span>
+                <span class="badge">Lightweight</span>
+            </div>
+        </header>
+
+        <section class="demo-controls">
+            <h2>Interactive Demo</h2>
+            <p>Trigger different states using the controls below.</p>
+
+            <div class="control-grid">
+                <button id="btn-notify" class="demo-btn">Notify</button>
+                <button id="btn-progress" class="demo-btn">Progress (Random)</button>
+                <button id="btn-success" class="demo-btn">Success</button>
+                <button id="btn-media" class="demo-btn">Media Player</button>
+                <button id="btn-expand" class="demo-btn">Expand</button>
+                <button id="btn-collapse" class="demo-btn">Collapse</button>
+                <button id="btn-reset" class="demo-btn demo-btn-secondary">Reset to Idle</button>
+            </div>
+        </section>
+
+        <section class="demo-features">
+            <div class="feature-card">
+                <h3>Accessible</h3>
+                <p>Built with semantic HTML, keyboard navigation, and respects prefers-reduced-motion.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Performant</h3>
+                <p>Hardware-accelerated CSS animations and a minimal DOM footprint.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Framework Agnostic</h3>
+                <p>Pure vanilla JavaScript and CSS. Drop it into any project effortlessly.</p>
+            </div>
+        </section>
+
+        <footer class="demo-footer">
+            <p>&copy; 2024 Lykenstar Project. Open Source.</p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

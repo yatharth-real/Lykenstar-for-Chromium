@@ -1,0 +1,561 @@
+:root {
+    /* Color Palette */
+    --bg-color: #0f1115;
+    --text-primary: #ffffff;
+    --text-secondary: #8b92a5;
+    --accent-color: #6366f1;
+    --accent-hover: #4f46e5;
+
+    /* Notch Colors */
+    --notch-bg: rgba(20, 20, 20, 0.85);
+    --notch-border: rgba(255, 255, 255, 0.08);
+    --notch-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+
+    /* Typography */
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    /* Transitions */
+    --transition-snappy: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --transition-snappy: 0.1s ease;
+        --transition-smooth: 0.1s ease;
+        --transition-fast: 0s;
+    }
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* Demo Page Styles */
+.demo-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 120px 2rem 4rem; /* Top padding to account for notch */
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    z-index: 1;
+}
+
+.demo-header {
+    text-align: center;
+}
+
+.demo-header h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+.demo-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.demo-badges {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.demo-controls {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 2.5rem;
+    text-align: center;
+}
+
+.demo-controls h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.demo-controls p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.control-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.demo-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.demo-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+.demo-btn:active {
+    transform: translateY(0);
+}
+
+.demo-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.demo-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.demo-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 20px;
+}
+
+.feature-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #e0e7ff;
+}
+
+.feature-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.demo-footer {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* WebNotch Component Base Styles */
+.web-notch {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+
+    /* Hardware acceleration and morphing base */
+    will-change: width, height, transform;
+    transition:
+        width var(--transition-snappy),
+        height var(--transition-snappy),
+        border-radius var(--transition-snappy),
+        background-color var(--transition-smooth);
+
+    /* Base physical properties */
+    background: var(--notch-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--notch-border);
+    box-shadow: var(--notch-shadow);
+
+    /* Center content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Remove default focus outline but keep accessibility */
+    outline: none;
+    cursor: pointer;
+    overflow: hidden; /* Hide overflowing dynamic content */
+}
+
+/* Ensure focus is visible for keyboard users */
+.web-notch:focus-visible {
+    box-shadow: 0 0 0 2px var(--accent-color), var(--notch-shadow);
+}
+
+.web-notch-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.web-notch-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    transition: opacity var(--transition-fast), transform var(--transition-smooth);
+    position: absolute;
+}
+
+.web-notch-dynamic-area {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-fast);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================
+   STATES
+   ========================================= */
+
+/* 1. IDLE STATE */
+.web-notch.is-idle {
+    width: 120px;
+    height: 36px;
+    border-radius: 18px;
+}
+
+.web-notch.is-idle .web-notch-title {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* 2. HOVER STATE */
+.web-notch.is-idle:hover {
+    width: 130px;
+    height: 38px;
+    border-radius: 19px;
+    background: rgba(30, 30, 30, 0.9);
+}
+
+/* 3. EXPANDED STATE */
+.web-notch.is-expanded {
+    width: 320px;
+    height: 160px;
+    border-radius: 32px;
+    cursor: default;
+}
+
+.web-notch.is-expanded .web-notch-title {
+    opacity: 0;
+    transform: scale(0.9) translateY(-10px);
+}
+
+.web-notch.is-expanded .web-notch-dynamic-area {
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 0.1s; /* Show after expansion starts */
+}
+
+/* Mobile responsive for expanded state */
+@media (max-width: 400px) {
+    .web-notch.is-expanded {
+        width: 90vw;
+    }
+}
+
+/* 4. NOTIFICATION STATE */
+.web-notch.is-notification {
+    width: 240px;
+    height: 44px;
+    border-radius: 22px;
+}
+
+.web-notch.is-notification .web-notch-title {
+    opacity: 0;
+}
+
+.web-notch.is-notification .web-notch-dynamic-area {
+    opacity: 1;
+}
+
+/* 5. PROGRESS STATE */
+.web-notch.is-progress {
+    width: 180px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.web-notch.is-progress .web-notch-title {
+    opacity: 0;
+}
+
+.web-notch.is-progress .web-notch-dynamic-area {
+    opacity: 1;
+}
+
+/* 6. SUCCESS STATE */
+.web-notch.is-success {
+    width: 220px;
+    height: 44px;
+    border-radius: 22px;
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.web-notch.is-success .web-notch-title {
+    opacity: 0;
+}
+
+.web-notch.is-success .web-notch-dynamic-area {
+    opacity: 1;
+}
+
+/* 7. MEDIA STATE */
+.web-notch.is-media {
+    width: 300px;
+    height: 64px;
+    border-radius: 32px;
+}
+
+.web-notch.is-media .web-notch-title {
+    opacity: 0;
+}
+
+.web-notch.is-media .web-notch-dynamic-area {
+    opacity: 1;
+}
+
+/* =========================================
+   DYNAMIC CONTENT STYLES
+   These are applied to elements injected into web-notch-dynamic-area
+   ========================================= */
+
+/* Notification Content */
+.wn-notification {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+.wn-icon-bell {
+    width: 18px;
+    height: 18px;
+    fill: var(--accent-color);
+}
+
+/* Progress Content */
+.wn-progress-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 0 16px;
+}
+.wn-progress-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.wn-progress-bar {
+    height: 100%;
+    background: var(--accent-color);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+.wn-progress-text {
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-secondary);
+}
+
+/* Success Content */
+.wn-success {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #10b981;
+    font-weight: 600;
+}
+.wn-icon-check {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* Media Content */
+.wn-media {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 10px 16px;
+    gap: 8px;
+}
+.wn-media-content-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.wn-media-progress {
+    width: 100%;
+    padding: 0 4px;
+}
+.wn-media-progress .wn-progress-track {
+    height: 3px;
+}
+.wn-media-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.wn-media-art {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f43f5e, #8b5cf6);
+}
+.wn-media-text {
+    display: flex;
+    flex-direction: column;
+}
+.wn-media-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+.wn-media-artist {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+.wn-media-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.wn-media-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+.wn-media-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+.wn-media-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+/* Expanded Content */
+.wn-expanded-panel {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.wn-expanded-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.wn-expanded-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.wn-close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.wn-close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+.wn-expanded-body {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    flex-grow: 1;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+.wn-expanded-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+.wn-expanded-row svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--accent-color);
+}
+.wn-success-text svg {
+    fill: #10b981;
+}
+.wn-success-text {
+    color: #10b981;
+}
