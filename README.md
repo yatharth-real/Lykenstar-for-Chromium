@@ -1,3 +1,6 @@
+<img width="175" height="59" alt="image" src="https://github.com/user-attachments/assets/c2eefcda-900d-4e55-a865-21ffb2988f30" />
+
+
 # Lykenstar
 
 > A minimalist, non-auditory Dynamic Island productivity heads-up display (HUD) for modern web browsers.
