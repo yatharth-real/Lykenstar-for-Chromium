@@ -5,6 +5,8 @@
 Lykenstar injects an organic, distraction-free control deck into any web document. Designed around a pure OLED true-black glass aesthetic, fluid spring-curve mechanics, and an isolated Shadow DOM host, it brings core productivity utilities right to the top shelf of your viewport without intrusive modals or ambient audio distractions.
 
 ---
+# Check Releases section for download
+
 
 ## Architecture & Design Principles
 
