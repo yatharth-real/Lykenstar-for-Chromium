@@ -1,61 +1,44 @@
-# Lykenstar (WebNotch)
+# Lykenstar
 
-Lykenstar is a polished, standalone, dynamic-island-inspired web component called "WebNotch". It provides a premium, futuristic interface that sits at the top-center of a webpage and smoothly morphs between different interactive states.
+> A minimalist, non-auditory Dynamic Island productivity heads-up display (HUD) for modern web browsers.
 
-This is a pure Vanilla JS and CSS solution designed to be lightweight, performant, and completely independent of any frameworks like React or Vue, and completely independent of browser extensions. It lives directly inside your website.
+Lykenstar injects an organic, distraction-free control deck into any web document. Designed around a pure OLED true-black glass aesthetic, fluid spring-curve mechanics, and an isolated Shadow DOM host, it brings core productivity utilities right to the top shelf of your viewport without intrusive modals or ambient audio distractions.
 
-## Features
+---
 
-- **No Dependencies:** Built with just HTML, Vanilla CSS, and Vanilla JavaScript.
-- **Lightweight & Performant:** Uses CSS transforms, opacity transitions, and minimal DOM manipulation. Hardware accelerated.
-- **Responsive:** Works beautifully on desktop, tablet, and mobile devices.
-- **Accessible:** Semantic HTML, ARIA labels, keyboard navigation (e.g., `Escape` to close), visible focus states, and respects `prefers-reduced-motion`.
-- **7 Smooth States:** Idle, Hover, Expanded, Notification, Progress, Success, Media.
-- **Developer Friendly API:** Simple JavaScript methods to trigger different UI states.
+## Architecture & Design Principles
 
-## Quick Start
+- **True-Black OLED Glassmorph**: Pure `#000000` base layered with 32px backdrop blur, specular top-edge highlighting, and high-contrast monochrome typography. Zero saturated gradients or distracting color accents.
+- **Wordless Sensory Pill (Collapsed)**: A resting pill anchored top-center showing only a real-time digital chronometer and a breathing status orb. No persistent brand tags or text clutter.
+- **Isolated Shadow DOM**: Mounted directly inside `document.documentElement` to prevent host-site stylesheet leaks, layout breaks, or z-index collisions across diverse web frameworks.
+- **Silent & Non-Auditory**: Exclusively focused on visual and cognitive flow. Completely stripped of audio hooks, media controllers, and volume interceptors.
+- **Fluid Morphing Carousel**: An expanded 3-deck sliding bay driven by `cubic-bezier(0.16, 1, 0.3, 1)` spring physics.
 
-Open `index.html` in your browser to see the interactive demo!
+---
 
-### Usage in your project
+## Feature Overview
 
-1. Include the HTML container in your body:
+### 1. Deep Work (Pomodoro Engine)
+- Dedicated 25-minute interval timer for uninterrupted focus blocks.
+- One-click Start/Pause controls with instant numeral sync.
+- Tabular numeric typography to eliminate layout jitter while counting down.
 
-```html
-<div id="web-notch" class="web-notch" aria-live="polite" role="status" tabindex="0">
-    <div class="web-notch-content" id="web-notch-content">
-        <span class="web-notch-title" id="web-notch-title">Lykenstar</span>
-        <div class="web-notch-dynamic-area" id="web-notch-dynamic-area"></div>
-    </div>
-</div>
-```
+### 2. Session Memo (Ephemeral Scratchpad)
+- Fast-capture scratchpad that persists locally across sessions via `localStorage`.
+- Live character counter with an instant **Copy All** clipboard trigger.
+- Isolated keystroke handlers to prevent accidental page-level shortcut conflicts.
 
-2. Include `style.css` in your head:
-```html
-<link rel="stylesheet" href="style.css">
-```
+### 3. System Shelf (Utility Deck)
+- **Clean Link**: One-click URL copying that strips common analytics and marketing tracking queries (`utm_*`, `fbclid`, `gclid`, `ref`).
+- **Read Metrics**: Instant calculation of total page words and estimated reading duration.
+- **Top Apex**: Smooth, hardware-accelerated scroll to the top of the page.
+- **Hard Reload**: Quick-trigger cache re-render for development and research workflows.
 
-3. Include `script.js` and initialize:
-```html
-<script src="script.js"></script>
-```
+---
 
-## JavaScript API Reference
+## Extension Structure
 
-Once initialized (`const webNotch = new WebNotch('web-notch');`), you can call the following methods:
-
-- `webNotch.notify(message, duration)`: Shows a notification. Auto-closes after `duration` ms (default 3000).
-- `webNotch.progress(percentage)`: Shows a progress bar (0-100).
-- `webNotch.success(message, duration)`: Shows a success message. Auto-closes after `duration` ms (default 3000).
-- `webNotch.media({ title, artist, playing })`: Shows a media player state.
-- `webNotch.expand()`: Opens the expanded view.
-- `webNotch.collapse()`: Returns to the idle state.
-
-## Architecture
-
-- `index.html`: The demo page layout and component skeleton.
-- `style.css`: Contains CSS variables, base styles, state classes (`.is-idle`, `.is-expanded`, etc.), and dynamic content styling.
-- `script.js`: The `WebNotch` class handles state management, event listeners, DOM updates, and exposes the public API.
-
-## License
-MIT License
+```text
+lykenstar/
+├── manifest.json       # Manifest V3 configuration (all_urls permission)
+└── content.js          # Shadow DOM injector, UI deck, and productivity engine
